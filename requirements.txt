@@ -1,3 +1,4 @@
 azure-core==1.30.2
 azure-identity==1.17.1
 azure.ai.formrecognizer==3.3.3
+python-dotenv==1.0.1
