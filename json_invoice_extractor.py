@@ -4,7 +4,6 @@ import datetime
 import json
 import os
 from azure.ai.formrecognizer import DocumentAnalysisClient
-from azure.ai.translation.text import TextTranslationClient
 from azure.core.credentials import AzureKeyCredential
 from dotenv import load_dotenv
 
@@ -53,6 +52,7 @@ for idx, invoice in enumerate(invoices.documents):
             invoice_info["Items"].append(invoice_item)
     invoice_data.append(invoice_info)
 invoice_data
+
 # %% 
 # Save the extracted data to a JSON file
 
