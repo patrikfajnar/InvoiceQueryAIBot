@@ -14,23 +14,25 @@ from langchain_openai import ChatOpenAI
 import os
 import json 
 
-documents = []
+loaders = []
 
 json_dir = r'c:\Data\OneDrive - kryonet.hu\PythonAI\számlák\program\json'
 for filename in os.listdir(json_dir):
     path = os.path.join(json_dir, filename)
     with open(path, "r", encoding='utf-8') as f:
         json_data = json.load(f)
-        json_string = json.dumps(json_data, ensure_ascii=False)
-        page = Document(page_content=json_string, metadata={"source": path})
-        documents.append(page)
+        loaders.append(JSONLoader(path, jq_schema=".", text_content=False)),
+
+documents = []
+for loader in loaders:
+    documents.extend(loader.load())
 
 child_splitter = RecursiveCharacterTextSplitter(chunk_size=200)
 vectorstore = Chroma(
-    collection_name="parent_docs_retriver3", embedding_function=OpenAIEmbeddings(), persist_directory="./chroma_langchain_db"
+    collection_name="parent_docs_retriver3_json", embedding_function=OpenAIEmbeddings(), persist_directory="./chroma_langchain_db"
 )
 
-local_file_store = LocalFileStore("./store_location")
+local_file_store = LocalFileStore("./store_location_json")
 store = create_kv_docstore(local_file_store)
 retriever = ParentDocumentRetriever(
     vectorstore=vectorstore,
@@ -67,7 +69,10 @@ question =  'Listázd azokat az elemeket, ahol a fizetés típusa (payment term)
 r = retriever.invoke(question)
 p = prompt.invoke({'question': question, 'context': r})
 print(r)
+print()
 print(p)
+print()
+
 # a = model.invoke(p)
 
 chain = (
