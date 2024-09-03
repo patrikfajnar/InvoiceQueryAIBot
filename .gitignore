@@ -164,3 +164,4 @@ cython_debug/
 # Other
 chroma_langchain_db/
 store_location/
+store_location_json/
