@@ -33,7 +33,7 @@ class InvoiceItem(Base):
     Amount = Column(String)
     invoice = relationship("Invoice", back_populates="items")
 
-engine = create_engine(f'sqlite:///c:\\Data\\Pr\\AI\\InvoiceQueryAIBot\\InvoiceQueryAIBot\\data\\invoices.db')
+engine = create_engine('sqlite:///c:\\Data\\Pr\\AI\\InvoiceQueryAIBot\\InvoiceQueryAIBot\\data\\invoices.db')
 Session = sessionmaker(bind=engine)
 
 def get_new_session():
