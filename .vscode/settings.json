@@ -1,8 +1,7 @@
 {
     "isort.check": true,
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.defaultFoldingRangeProvider": "ms-python.black-formatter",
     "editor.formatOnSave": true,
+    "python.analysis.nodeExecutable": "C:\\Program Files\\nodejs\\node.exe",
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.organizeImports": "explicit"
