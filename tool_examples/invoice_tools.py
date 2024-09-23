@@ -3,6 +3,7 @@ from typing import List, Tuple, Dict
 from langchain_core.tools import tool
 from pydantic import BaseModel
 from dal.invoice_database import Invoice, get_new_session
+
 class InvoiceIdsResponse(BaseModel):
     invoice_ids: List[str]
     
@@ -18,7 +19,6 @@ def extract_invoice_ids_tool(start_date: str, end_date:str) -> InvoiceIdsRespons
         Invoice.InvoiceDate.between(start_date, end_date)
     ).all()
 
-    # Extract invoice IDs from the query result
     invoice_ids = [invoice_id[0] for invoice_id in invoice_ids]
 
     session.close()
@@ -31,7 +31,7 @@ class InvoiceTotalsResponse(BaseModel):
 def get_invoice_totals(invoice_ids: list[str]) -> InvoiceTotalsResponse:
     """Get the total amounts (the currency is Ft) for the given invoice IDs."""
     session = get_new_session()
-    invoices = session.query(Invoice).filter(Invoice.InvoiceId.in_(invoice_ids)).all()
+    invoices = session.query(Invoice).with_entities(Invoice.InvoiceId, Invoice.InvoiceTotal).filter(Invoice.InvoiceId.in_(invoice_ids)).all()
     result = {invoice.InvoiceId: invoice.InvoiceTotal for invoice in invoices}
     session.close()
     return InvoiceTotalsResponse(invoice_totals=result)
