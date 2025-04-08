@@ -1,6 +1,3 @@
-# %%
-from typing_extensions import Annotated, TypedDict
-from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.messages import HumanMessage
 import invoice_tools
 from langchain_openai import ChatOpenAI
@@ -31,4 +28,3 @@ ai_msg3 = llm_with_tools.invoke(messages)
 messages.append(ai_msg3)
 
 pprint(messages)
-# %%
